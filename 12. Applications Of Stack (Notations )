@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#define MAX_SIZE 100
+
+int stack[MAX_SIZE], top = -1;
+
+void push(int item) {
+   if (top == MAX_SIZE - 1) {
+      printf("Error: Stack is full.\n");
+      return;
+   }
+   stack[++top] = item;
+}
+
+int pop() {
+   if (top == -1) {
+      printf("Error: Stack is empty.\n");
+      return -1;
+   }
+   return stack[top--];
+}
+
+int evaluate_postfix(char *exp) {
+   int i, x, y, result;
+   for (i = 0; exp[i]; i++) {
+      if (isdigit(exp[i])) {
+         push(exp[i] - '0');
+      } else {
+         x = pop();
+         y = pop();
+         switch (exp[i]) {
+            case '+': result = y + x; break;
+            case '-': result = y - x; break;
+            case '*': result = y * x; break;
+            case '/': result = y / x; break;
+            case '%': result = y % x; break;
+         }
+         push(result);
+      }
+   }
+   return pop();
+}
+
+int main() {
+   char exp[MAX_SIZE];
+   printf("Enter an expression in postfix format: ");
+   scanf("%s", exp);
+   printf("Result: %d\n", evaluate_postfix(exp));
+   return 0;
+}
