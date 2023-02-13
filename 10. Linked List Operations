@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+   int data;
+   struct node *next;
+};
+
+void insert_at_front(struct node **head, int data) {
+   struct node *new_node = (struct node *)malloc(sizeof(struct node));
+   new_node->data = data;
+   new_node->next = *head;
+   *head = new_node;
+}
+
+void delete_at_front(struct node **head) {
+   if (*head == NULL) {
+      printf("The list is empty.\n");
+      return;
+   }
+   struct node *temp = *head;
+   *head = (*head)->next;
+   free(temp);
+}
+
+void display(struct node *head) {
+   struct node *temp = head;
+   while (temp != NULL) {
+      printf("%d ", temp->data);
+      temp = temp->next;
+   }
+   printf("\n");
+}
+
+int main() {
+   struct node *head = NULL;
+   insert_at_front(&head, 1);
+   insert_at_front(&head, 2);
+   insert_at_front(&head, 3);
+   insert_at_front(&head, 4);
+   insert_at_front(&head, 5);
+   printf("Original list: ");
+   display(head);
+   delete_at_front(&head);
+   printf("After deleting the first element: ");
+   display(head);
+   return 0;
+}
